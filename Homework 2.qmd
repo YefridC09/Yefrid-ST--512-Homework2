@@ -35,7 +35,7 @@ P_v
 ```
 
 |   | df | SS | MS | F-Value | P-Value |
-|----|----|----|----|----|----|
+|------------|------------|------------|------------|------------|------------|
 | **Bet\_ Dossage** | [`r round(df_tr, 2)`]{.underline} | 450.7 | [`r round(MStr, 2)`]{.underline} | [`r round(F_v, 2)`]{.underline} | [`r round(P_v, 3)`]{.underline} |
 | **Error** | [`r round(df_e, 2)`]{.underline} | [`r round(SSe, 2)`]{.underline} | [`r round(MSe, 2)`]{.underline} |  |  |
 | **Total** | [`r round(df_tr + df_e, 2)`]{.underline} | 783.9 |  |  |  |
@@ -44,4 +44,140 @@ P_v
 
 Is there evidence to indicate that dosage level affects bioactivity?
 
+**R/**\
+Assuming an $\alpha = 0.05$, There is strong evidence to conclude that the at least one of the mean bioactivities is different from the others (P-value \< $\alpha$).
+
+### b.
+
+Compute a 95 percent interval estimate of the mean of dosage level is 30g.
+
 **R/**
+
+```{r}
+dos20 <- c(24, 25, 37, 30)
+dos30 <- c(37, 44, 31, 35)
+dos40 <- c(42, 47, 52, 38)
+x2 <- mean(dos30)
+x2
+s2 <- sd(dos30)
+s2
+n2 <- 4
+n2
+t2_star <- qt(.975, n2-1)
+t2_star
+SE2 <- s2 / sqrt(n2)
+SE2
+Upper <- x2 + t2_star * SE2
+Upper
+Lower<- x2 - t2_star * SE2
+Lower
+```
+
+We are 95% confident that the true mean bioactivity of the new drug at a dosage of 30 mg is between (`r round(Lower, 2)`, `r round(Upper, 2)`).
+
+### c.
+
+Compute a 99 percent interval estimate of the mean difference between dosages levels 20g and 40g.
+
+**R/**
+
+```{r}
+x1 <- mean(dos20)
+x1
+x3 <- mean(dos40)
+x3
+s1 <- sd(dos20)
+s1
+s2 <- sd(dos40)
+s2
+n1 = n3 = 4
+PEs <- x3 - x1
+PEs
+df <- n1+n3-2
+df
+SE <- sqrt(MSe / n1 + MSe / n3)
+SE
+t_star <- qt(0.995, df, lower.tail = T)
+t_star
+Upper1 <- PEs + (SE * t_star)
+Upper1
+Lower1 <- PEs - (SE * t_star)
+Lower1
+```
+
+We are 99% confident that the bioactivity of the new drug at a dosage of 40 mg is between `r round(Upper1, 2)` higher, and `r round(Lower1, 2)`) lower than the dosage of 20 mg.
+
+### d.
+
+Compute simultaneous 95% CIs for the difference in means for dosage levels 20g and 40g, based on Tukey’s, Bonferroni’s and Scheffe’s Methods:
+
+**R/**
+
+```{r}
+#Tukey's HSD
+Q <- qtukey(0.95, 3, 12-3)/sqrt(2)
+Q
+Up_Tu <- PEs + Q * SE
+Up_Tu
+Lo_Tu <- PEs - Q * SE
+Lo_Tu
+# Bonferroni
+g = 3 * (3 - 1)/2
+dfe = 12 - 3
+t_bf = qt(1 - (0.05/(2*g)), dfe)
+t_bf
+Up_bf <- PEs + t_bf * SE
+Up_bf
+Lo_bf <- PEs - t_bf * SE
+Lo_bf
+# Scheffe
+Sh <- sqrt((3 - 1) * qf(0.95, 3-1, dfe))
+Sh
+Up_sh <- PEs + Sh * SE
+Up_sh
+Lo_sh <- PEs - Sh * SE
+Lo_sh
+```
+
+Tukey's HSD 95% confidence interval = (`r round(Lo_Tu, 2)`, `r round(Up_Tu, 2)`)\
+Bonferroni's 95% confidence interval = (`r round(Lo_bf, 2)`, `r round(Up_bf, 2)`)\
+Scheffe's 95% confidence interval = (`r round(Lo_sh, 2)`, `r round(Up_sh, 2)`)
+
+### e.
+
+Use Tukey’s HSD to compare pairs of treatment means.
+
+**R/**\
+When $| x_a - x_b | > Tukey's\  HSD$ we can conclude that there is a difference mean of $a$ is different of the mean of $b$
+
+```{r}
+# Tukey's HSD for all the comparisons
+T_HSD <- Q * SE
+T_HSD
+abs(x1 - x2) > T_HSD #Comparison for dosage 20g to dosage 30g
+abs(x1 - x3) > T_HSD #Comparison for dosage 20g to dosage 40g
+abs(x2 - x3) > T_HSD #Comparison for dosage 30g to dosage 40g
+```
+
+For these comparisons, the only comparison in which the mean bioactivity of the new drug is significantly different, is when it is compared 20g and 40 g of dosage.
+
+## Problem 2
+
+The tensile strength of Portland cement is being studied. Four different mixing techniques can be used economically. A completely randomized experiment was conducted, and the following data were collected.
+
+![](images/clipboard-3547813352.png){width="624"}
+
+You are given the following information:
+
+$\bar{Y}_{1.} = 2971.00$, $s(\bar{Y}_{1.}) = 56.65$ and, $MSE = 12825.7$\
+$\bar{Y}_{2.} = 2933.75$, $s(\bar{Y}_{2.}) = 56.65$\
+$\bar{Y}_{3.} = 2933.75$, $s(\bar{Y}_{3.}) = 56.65$\
+$\bar{Y}_{4.} = 2666.25$, $s(\bar{Y}_{4.}) = 56.65$
+
+### a.
+
+Test the hypothesis that mixing techniques affect the strength of the cement. Test the hypothesis: $$
+H_o : \mu_1 = \mu_2 = \mu_3 = \mu_3
+$$ $$
+H_a  : At\:least\:one\: \mu_i \neq \mu_j \:; for \: i\neq j
+$$
