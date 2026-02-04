@@ -170,14 +170,96 @@ The tensile strength of Portland cement is being studied. Four different mixing 
 You are given the following information:
 
 $\bar{Y}_{1.} = 2971.00$, $s(\bar{Y}_{1.}) = 56.65$ and, $MSE = 12825.7$\
-$\bar{Y}_{2.} = 2933.75$, $s(\bar{Y}_{2.}) = 56.65$\
+$\bar{Y}_{2.} = 3156.25$, $s(\bar{Y}_{2.}) = 56.65$\
 $\bar{Y}_{3.} = 2933.75$, $s(\bar{Y}_{3.}) = 56.65$\
 $\bar{Y}_{4.} = 2666.25$, $s(\bar{Y}_{4.}) = 56.65$
 
 ### a.
 
-Test the hypothesis that mixing techniques affect the strength of the cement. Test the hypothesis: $$
+Test the hypothesis that mixing techniques affect the strength of the cement. Test the hypothesis: 
+
+**R/**    
+$$
 H_o : \mu_1 = \mu_2 = \mu_3 = \mu_3
-$$ $$
+$$ 
+
+$$
 H_a  : At\:least\:one\: \mu_i \neq \mu_j \:; for \: i\neq j
 $$
+
+
+```{r}
+dft <- 4-1
+dfe <- 16-4
+y1 <- 2971
+y2 <- 3156.25
+y3 <- 2933.75
+y4 <- 2666.25
+s1 = s2 = s3 = s4 = 56.65
+n1 = n2 = n3 = n4 = 4
+MSE <- 12825.7
+y_bar = 4 * (y1 + y2 +y3 + y4) / 16
+SSt = 4 * ((y1 - y_bar)^2 + (y2 - y_bar)^2 + (y3 - y_bar)^2 +(y4 - y_bar)^2 ) / dft
+SSt
+MSt <- SSt/dft
+MSt
+SSe <- MSE*dfe
+SSe
+F_v <- MSt / MSE
+F_v
+P_v <- pf(F_v, dft, dfe, lower.tail = F)
+P_v
+```
+
+|   | df | SS | MS | F-Value | P-Value |
+|------------|------------|------------|------------|------------|------------|
+| **Mixing technique** | [3]{.underline} | [`r format(round(SSt, 2), scientific = F)`]{.underline} | [54415.6]{.underline} | [`r round(F_v, 2)`]{.underline} | [`r round(P_v, 3)`]{.underline} |
+| **Error** | [12]{.underline} | [`r format(round(SSe, 2), scientific = F)`]{.underline} | 12825.7 |  |  |
+| **Total** | [15]{.underline} | [`r format(round(SSt+SSe, 2), scientific = F)`]{.underline} |  |  |  |
+
+As our P-value obtained is less than our $\alpha = 0.05$, we reject the null hypothesis, and we have enough evidence to conclude that at least one of the mean tensile strengths is different from the others when a different mixing technique is applied.
+
+### b.
+
+Find a 95 percent confidence interval on the mean tensile strength of the Portland cement produced by mixing technique 3. 
+
+**R/**    
+```{r}
+t_star <- qt(.975, n3-1)
+t_star
+SE3 <- s3 / sqrt(n3)
+SE3
+Up3 <- y3 + t_star * SE3
+Up3
+Lo3 <- y3 - t_star * SE3
+Lo3
+```
+We are 95% confident that the true mean tensile strength of the Portland cement produced by mixing technique 3 lies between (`r round(Lo3, 2)`, `r round(Up3, 2)`) $lb/in^2$.
+
+### c.
+
+Find a 95 percent confidence interval on the difference in means for techniques 1 and 3 & 3 and 4.
+
+```{r}
+PE31 <- y3 - y1
+PE31
+PE34 <- y3 - y4
+PE34
+df31 <- n1 + n3 - 2
+df31
+df34 <- n3 + n4 - 2
+df34
+SE <- sqrt( 2 * MSE / 4)
+SE
+t_star <- qt(0.975, df34, lower.tail = T)
+t_star
+Up31 <- PE31 + (SE * t_star)
+Up31
+Lo31 <- PE31 - (SE * t_star)
+Lo31
+Up34 <- PE34 + (SE * t_star)
+Up34
+Lo34 <- PE34 - (SE * t_star)
+Lo34
+```
+**Need to conclude  an continue with part d**
