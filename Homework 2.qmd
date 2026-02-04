@@ -1,0 +1,47 @@
+---
+title: "Homework 2"
+author: "Yefrid Cordoba"
+format: html
+editor: visual
+---
+
+## Problem 1
+
+A pharmaceutical manufacturer wants to investigate the bioactivity of a new drug. A completely randomized single-factor experiment was conducted with three dosage levels, and the following results were obtained.
+
+![](images/clipboard-4043088528.png)
+
+**Complete the ANOVA table:**
+
+```{r}
+nt <- 3 * 4
+a <- 3
+df_tr <- ( a - 1 )
+df_tr
+df_e <- nt - a
+df_e
+SStr <- 450.7
+SST <- 783.9
+SSe <- SST - SStr
+SSe
+MStr <- SStr / df_tr
+MStr
+MSe <- SSe / df_e
+MSe
+F_v <- MStr / MSe
+F_v 
+P_v <- pf(F_v, df_tr, df_e, lower.tail = F)
+P_v
+```
+
+|   | df | SS | MS | F-Value | P-Value |
+|----|----|----|----|----|----|
+| **Bet\_ Dossage** | [`r round(df_tr, 2)`]{.underline} | 450.7 | [`r round(MStr, 2)`]{.underline} | [`r round(F_v, 2)`]{.underline} | [`r round(P_v, 3)`]{.underline} |
+| **Error** | [`r round(df_e, 2)`]{.underline} | [`r round(SSe, 2)`]{.underline} | [`r round(MSe, 2)`]{.underline} |  |  |
+| **Total** | [`r round(df_tr + df_e, 2)`]{.underline} | 783.9 |  |  |  |
+
+### a.
+
+Is there evidence to indicate that dosage level affects bioactivity?
+
+**R/**
