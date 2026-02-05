@@ -339,3 +339,9 @@ Sh_MSD <- Sh * sqrt( 2 * MSE / 4)
 Sh_MSD
 ```
 
+## Problem 3
+
+A study is conducted to compare 4 menus in terms of numbers of calories ordered by restaurant customers (in 100s of calories). The treatments (menus) are (consider them increasing in order of information provided): 
+
+1) No Calories Reported     2) Calories Reported      3) Rank-Ordered Calories   4) Color-Coded Calories
+ The sample sizes are all based on samples of r = 20 customers per menu. The sample means and estimated variance are:
