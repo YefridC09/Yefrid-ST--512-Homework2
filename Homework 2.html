@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Homework 2_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Homework 2_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Homework 2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Homework 2_files/libs/bootstrap/bootstrap-00b89fee0a844e7981cdfbc55183e926.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Homework 2_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -716,6 +716,256 @@ Scheffe’s 95% confidence interval = (-296.38, 221.88)</p>
 <pre><code>[1] 259.1297</code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="problem-3" class="level2">
+<h2 class="anchored" data-anchor-id="problem-3">Problem 3</h2>
+<p>A study is conducted to compare 4 menus in terms of numbers of calories ordered by restaurant customers (in 100s of calories). The treatments (menus) are (consider them increasing in order of information provided):</p>
+<ol type="1">
+<li><p>No Calories Reported</p></li>
+<li><p>Calories Reported</p></li>
+<li><p>Rank-Ordered Calories</p></li>
+<li><p>Color-Coded Calories</p></li>
+</ol>
+<p>The sample sizes are all based on samples of r = 20 customers per menu. The sample means and estimated variance are:</p>
+<p><span class="math inline">\(\bar{Y}_{1.} = 17.6\)</span><br>
+<span class="math inline">\(\bar{Y}_{2.} = 16.8\)</span><br>
+<span class="math inline">\(\bar{Y}_{3.} = 16.0\)</span><br>
+<span class="math inline">\(\bar{Y}_{4.} = 14.4\)</span><br>
+<span class="math inline">\(\bar{Y}_{..} = 16.2\)</span><br>
+<span class="math inline">\(s^2 = MSE = 196.0\)</span></p>
+<p>Give 3 orthogonal contrasts, and their estimates and estimated standard errors.</p>
+<p><strong>Contrast 1: Menu 1 vs Menus {2, 3, 4}</strong><br>
+</p>
+<p>Contrast 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a>Lhat_1 <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fl">17.7</span> <span class="sc">-</span> <span class="fl">16.8</span> <span class="sc">-</span> <span class="fl">16.0</span> <span class="sc">-</span> <span class="fl">14.4</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>Lhat_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> <span class="dv">196</span></span>
+<span id="cb141-2"><a href="#cb141-2" aria-hidden="true" tabindex="-1"></a>s_ci <span class="ot">&lt;-</span> ( <span class="dv">3</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>)</span>
+<span id="cb141-3"><a href="#cb141-3" aria-hidden="true" tabindex="-1"></a>s_ci </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a>s_L1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( MSE <span class="sc">*</span> s_ci)</span>
+<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a>s_L1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.84435</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(H_o: L_1 = \mu_1 = \frac{\mu_2 + \mu_3 + \mu_4}{3}\)</span><br>
+<span class="math inline">\(L_1 = 3\mu_1 + (-1)\mu_2+ (-1)\mu_3+ (-1)\mu_4 = 0\)</span><br>
+<span class="math inline">\(\hat{L_1} = 3\bar{y}_{1.}+ (-1)\bar{y}_{2.}+ (-1)\bar{y}_{3.}+ (-1)\bar{y}_{4.} =\)</span> 5.9<br>
+<span class="math inline">\(sd(\hat{L_1}) =\)</span> 10.84</p>
+<p><strong>Contrast 2: Menu 2 vs Menus {3, 4}</strong><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a>Lhat_2 <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="sc">*</span> <span class="fl">17.7</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fl">16.8</span> <span class="sc">-</span> <span class="fl">16.0</span> <span class="sc">-</span> <span class="fl">14.4</span></span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a>Lhat_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> <span class="dv">196</span></span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>s_ci <span class="ot">&lt;-</span> ( <span class="dv">0</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> ( <span class="dv">2</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>)</span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>s_ci </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>s_L2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( MSE <span class="sc">*</span> s_ci)</span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>s_L2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.668116</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(H_o: L_2 = \mu_2 = \frac{\mu_3 + \mu_4}{2}\)</span><br>
+<span class="math inline">\(L_2 = (0)\mu_1 + 2\mu_2+ (-1)\mu_3+ (-1)\mu_4 = 0\)</span><br>
+<span class="math inline">\(\hat{L_2} = (0)\bar{y}_{1.}+ 2\bar{y}_{2.}+ (-1)\bar{y}_{3.}+ (-1)\bar{y}_{4.} =\)</span> 3.2<br>
+<span class="math inline">\(sd(\hat{L_2}) =\)</span> 7.67</p>
+<p><strong>Contrast 3: Menu 3 vs Menu 4</strong><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>Lhat_3 <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="sc">*</span> <span class="fl">17.7</span> <span class="sc">+</span> <span class="dv">0</span> <span class="sc">*</span> <span class="fl">16.8</span> <span class="sc">+</span> <span class="fl">16.0</span> <span class="sc">-</span> <span class="fl">14.4</span></span>
+<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>Lhat_3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> <span class="dv">196</span></span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>s_ci <span class="ot">&lt;-</span> ( <span class="dv">0</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> ( <span class="dv">0</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>) <span class="sc">+</span> (( <span class="sc">-</span><span class="dv">1</span>) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span><span class="dv">20</span>)</span>
+<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a>s_ci </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>s_L3 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>( MSE <span class="sc">*</span> s_ci)</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>s_L3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.427189</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(H_o: L_3 = \mu_3 =  \mu_4\)</span><br>
+<span class="math inline">\(L_3 = (0)\mu_1 + (0)\mu_2+ (1)\mu_3+ (-1)\mu_4 = 0\)</span><br>
+<span class="math inline">\(\hat{L_3} = (0)\bar{y}_{1.}+ (0)\bar{y}_{2.}+ \bar{y}_{3.}+ (-1)\bar{y}_{4.} =\)</span> 1.6<br>
+<span class="math inline">\(sd(\hat{L_3}) =\)</span> 4.43</p>
+</section>
+<section id="problem-4-r" class="level2">
+<h2 class="anchored" data-anchor-id="problem-4-r">Problem 4 R</h2>
+<p>An article in Environment International (Vol. 18, No.&nbsp;4, 1992) describes an experiment in which the amount of radon released in showers was investigated. Radon enriched water was used in the experiment and six different Orifice diameters were tested in shower heads. The data from the experiment are shown in the following table.</p>
+<p><img src="images/clipboard-825273263.png" class="img-fluid"></p>
+<section id="a.-2" class="level3">
+<h3 class="anchored" data-anchor-id="a.-2">a.</h3>
+<p>Write a suitable model (Factor effects) for this experiment. Define all terms in the model. Include all assumptions of the model.</p>
+<p><strong>R/</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>radon_release<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">83</span>,<span class="dv">83</span>,<span class="dv">85</span>,<span class="dv">75</span>,<span class="dv">75</span>,<span class="dv">79</span>,<span class="dv">79</span>,<span class="dv">74</span>,<span class="dv">73</span>,<span class="dv">76</span>,<span class="dv">77</span>,<span class="dv">67</span>,<span class="dv">72</span>,<span class="dv">74</span>,<span class="dv">74</span>,<span class="dv">62</span>,<span class="dv">62</span>,<span class="dv">67</span>,<span class="dv">69</span>,<span class="dv">60</span>,<span class="dv">61</span>,<span class="dv">64</span>,<span class="dv">66</span>)</span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>diameter<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"0.37"</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">"0.51"</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">"0.71"</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">"1.02"</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">"1.40"</span>,<span class="dv">4</span>),<span class="fu">rep</span>(<span class="st">"1.99"</span>,<span class="dv">4</span>))</span>
+<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>radon_data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(radon_release,diameter)</span>
+<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a>radon_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   radon_release diameter
+1             80     0.37
+2             83     0.37
+3             83     0.37
+4             85     0.37
+5             75     0.51
+6             75     0.51
+7             79     0.51
+8             79     0.51
+9             74     0.71
+10            73     0.71
+11            76     0.71
+12            77     0.71
+13            67     1.02
+14            72     1.02
+15            74     1.02
+16            74     1.02
+17            62     1.40
+18            62     1.40
+19            67     1.40
+20            69     1.40
+21            60     1.99
+22            61     1.99
+23            64     1.99
+24            66     1.99</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(radon_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   24 obs. of  2 variables:
+ $ radon_release: num  80 83 83 85 75 75 79 79 74 73 ...
+ $ diameter     : chr  "0.37" "0.37" "0.37" "0.37" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(radon_release <span class="sc">~</span> diameter, <span class="at">data =</span> radon_data)</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+diameter     5 1133.4  226.68   30.85 3.16e-08 ***
+Residuals   18  132.2    7.35                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 0.37  0.51  0.71  1.02  1.40  1.99 
+82.75 77.00 75.00 71.75 65.00 62.75 </code></pre>
+</div>
+</div>
+<p>The assumptions for this model are:</p>
+<ul>
+<li><p>Independence of observations</p></li>
+<li><p>Equal variance between each level evaluated</p></li>
+<li><p>The residuals follow an approximately normal distribution</p></li>
+<li><p>Linearity</p></li>
+</ul>
+<ol start="2" type="a">
+<li><p>Obtain point estimates and standard deviation of the radon released at each level.</p></li>
+<li><p>Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05</p></li>
+<li><p>Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(model))</span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="5" type="a">
+<li>Plot the residuals versus the predicted radon release. Comment on the plot.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(model), <span class="fu">residuals</span>(model), </span>
+<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted values"</span>, <span class="at">ylab =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="6" type="a">
+<li><p>Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.</p></li>
+<li><p>Test the normality assumption using Shapiro-Wilk test.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, shapiro.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`0.37`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.92614, p-value = 0.5719
+
+
+$`0.51`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.72863, p-value = 0.02386
+
+
+$`0.71`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.94971, p-value = 0.7143
+
+
+$`1.02`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.80781, p-value = 0.117
+
+
+$`1.40`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.83785, p-value = 0.1892
+
+
+$`1.99`
+
+    Shapiro-Wilk normality test
+
+data:  X[[i]]
+W = 0.93927, p-value = 0.6499</code></pre>
+</div>
+</div>
+<ol start="8" type="a">
+<li>Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.</li>
+</ol>
 </section>
 </section>
 

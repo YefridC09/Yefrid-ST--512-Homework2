@@ -332,7 +332,8 @@ Tu_HSD
 
 Compute Scheffe’s Minimum Significant Difference
 
-**R/**    
+**R/**
+
 ```{r}
 Sh <- sqrt((4 - 1) * qf(0.95, 4-1, dfe))
 Sh_MSD <- Sh * sqrt( 2 * MSE / 4)
@@ -341,7 +342,153 @@ Sh_MSD
 
 ## Problem 3
 
-A study is conducted to compare 4 menus in terms of numbers of calories ordered by restaurant customers (in 100s of calories). The treatments (menus) are (consider them increasing in order of information provided): 
+A study is conducted to compare 4 menus in terms of numbers of calories ordered by restaurant customers (in 100s of calories). The treatments (menus) are (consider them increasing in order of information provided):
 
-1) No Calories Reported     2) Calories Reported      3) Rank-Ordered Calories   4) Color-Coded Calories
- The sample sizes are all based on samples of r = 20 customers per menu. The sample means and estimated variance are:
+1.  No Calories Reported
+
+2.  Calories Reported
+
+3.  Rank-Ordered Calories
+
+4.  Color-Coded Calories
+
+The sample sizes are all based on samples of r = 20 customers per menu. The sample means and estimated variance are:
+
+$\bar{Y}_{1.} = 17.6$\
+$\bar{Y}_{2.} = 16.8$\
+$\bar{Y}_{3.} = 16.0$\
+$\bar{Y}_{4.} = 14.4$\
+$\bar{Y}_{..} = 16.2$\
+$s^2 = MSE = 196.0$
+
+Give 3 orthogonal contrasts, and their estimates and estimated standard errors.
+
+**Contrast 1: Menu 1 vs Menus {2, 3, 4}**\
+
+Contrast 1:
+
+```{r}
+Lhat_1 <- 3 * 17.7 - 16.8 - 16.0 - 14.4
+Lhat_1
+MSE <- 196
+s_ci <- ( 3 ^ 2 /20) + (( -1) ^ 2 /20) + (( -1) ^ 2 /20) + (( -1) ^ 2 /20)
+s_ci 
+s_L1 <- sqrt( MSE * s_ci)
+s_L1
+```
+
+$H_o: L_1 = \mu_1 = \frac{\mu_2 + \mu_3 + \mu_4}{3}$\
+$L_1 = 3\mu_1 + (-1)\mu_2+ (-1)\mu_3+ (-1)\mu_4 = 0$\
+$\hat{L_1} = 3\bar{y}_{1.}+ (-1)\bar{y}_{2.}+ (-1)\bar{y}_{3.}+ (-1)\bar{y}_{4.} =$ `r Lhat_1`\
+$sd(\hat{L_1}) =$ `r round(s_L1, 2)`
+
+**Contrast 2: Menu 2 vs Menus {3, 4}**\
+
+```{r}
+Lhat_2 <- 0 * 17.7 + 2 * 16.8 - 16.0 - 14.4
+Lhat_2
+MSE <- 196
+s_ci <- ( 0 ^ 2 /20) + ( 2 ^ 2 /20) + (( -1) ^ 2 /20) + (( -1) ^ 2 /20)
+s_ci 
+s_L2 <- sqrt( MSE * s_ci)
+s_L2
+```
+
+$H_o: L_2 = \mu_2 = \frac{\mu_3 + \mu_4}{2}$\
+$L_2 = (0)\mu_1 + 2\mu_2+ (-1)\mu_3+ (-1)\mu_4 = 0$\
+$\hat{L_2} = (0)\bar{y}_{1.}+ 2\bar{y}_{2.}+ (-1)\bar{y}_{3.}+ (-1)\bar{y}_{4.} =$ `r Lhat_2`\
+$sd(\hat{L_2}) =$ `r round(s_L2, 2)`
+
+**Contrast 3: Menu 3 vs Menu 4**\
+
+```{r}
+Lhat_3 <- 0 * 17.7 + 0 * 16.8 + 16.0 - 14.4
+Lhat_3
+MSE <- 196
+s_ci <- ( 0 ^ 2 /20) + ( 0 ^ 2 /20) + (1 ^ 2 /20) + (( -1) ^ 2 /20)
+s_ci 
+s_L3 <- sqrt( MSE * s_ci)
+s_L3
+```
+
+$H_o: L_3 = \mu_3 =  \mu_4$\
+$L_3 = (0)\mu_1 + (0)\mu_2+ (1)\mu_3+ (-1)\mu_4 = 0$\
+$\hat{L_3} = (0)\bar{y}_{1.}+ (0)\bar{y}_{2.}+ \bar{y}_{3.}+ (-1)\bar{y}_{4.} =$ `r Lhat_3`\
+$sd(\hat{L_3}) =$ `r round(s_L3, 2)`
+
+## Problem 4 R
+
+An article in Environment International (Vol. 18, No. 4, 1992) describes an experiment in which the amount of radon released in showers was investigated. Radon enriched water was used in the experiment and six different Orifice diameters were tested in shower heads. The data from the experiment are shown in the following table.
+
+![](images/clipboard-825273263.png)
+
+### a.
+
+Write a suitable model (Factor effects) for this experiment. Define all terms in the model. Include all assumptions of the model.
+
+**R/**
+```{r}
+radon_release<-c(80,83,83,85,75,75,79,79,74,73,76,77,67,72,74,74,62,62,67,69,60,61,64,66)
+diameter<-c(rep("0.37",4),rep("0.51",4),rep("0.71",4),rep("1.02",4),rep("1.40",4),rep("1.99",4))
+radon_data<-data.frame(radon_release,diameter)
+radon_data
+str(radon_data)
+model <- lm(radon_release ~ diameter, data = radon_data)
+summary.aov(model)
+tapply(radon_release, diameter, mean)
+```
+
+The assumptions for this model are:
+
+- Independence of observations
+
+- Equal variance between each level evaluated
+
+- The residuals follow an approximately normal distribution
+
+- Linearity
+
+
+
+b.	Obtain point estimates and standard deviation of the radon released at each level.
+
+c.	Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05
+
+d.	Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?
+
+```{r}
+qqnorm(residuals(model))
+qqline(residuals(model))
+```
+
+
+e.	Plot the residuals versus the predicted radon release. Comment on the plot.
+
+```{r}
+plot(fitted.values(model), residuals(model), 
+     xlab = "Fitted values", ylab = "Residuals")
+abline(h = 0)
+```
+
+
+f.	Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.
+
+```{r}
+library(car)
+
+```
+
+
+g.	Test the normality assumption using Shapiro-Wilk test.
+
+```{r}
+tapply(radon_release, diameter, shapiro.test)
+```
+
+
+h.	Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.
+
+```{r}
+
+```
+
