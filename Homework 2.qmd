@@ -433,8 +433,8 @@ diameter<-c(rep("0.37",4),rep("0.51",4),rep("0.71",4),rep("1.02",4),rep("1.40",4
 radon_data<-data.frame(radon_release,diameter)
 radon_data
 str(radon_data)
-model <- lm(radon_release ~ diameter, data = radon_data)
-summary.aov(model)
+model <- aov(radon_release ~ diameter, data = radon_data)
+summary(model)
 tapply(radon_release, diameter, mean)
 ```
 
@@ -450,9 +450,14 @@ The assumptions for this model are:
 
 
 
-b.	Obtain point estimates and standard deviation of the radon released at each level.
+### b.	
 
-c.	Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05
+Obtain point estimates and standard deviation of the radon released at each level.
+
+
+### c.	
+
+Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05
 
 d.	Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?
 
@@ -474,21 +479,29 @@ abline(h = 0)
 f.	Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.
 
 ```{r}
+#It is testing Ho: all group variances are equal
 library(car)
-
+leveneTest(radon_release, diameter)
+```
+```{r}
+#It is testing Ho: all group variances are equal
+library(mvoutlier)
+bartlett.test(radon_release ~ diameter)
 ```
 
 
 g.	Test the normality assumption using Shapiro-Wilk test.
 
 ```{r}
-tapply(radon_release, diameter, shapiro.test)
+#It is testing Ho: the data comes from a normal distribution
+tapply(radon_release, diameter, shapiro.test) 
 ```
 
 
 h.	Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.
 
 ```{r}
-
+TukeyHSD(model)
+pairwise.t.test(radon_release, diameter,p.adj="bonferroni")
 ```
 

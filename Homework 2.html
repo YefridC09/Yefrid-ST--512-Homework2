@@ -855,8 +855,8 @@ Scheffe’s 95% confidence interval = (-296.38, 221.88)</p>
  $ radon_release: num  80 83 83 85 75 75 79 79 74 73 ...
  $ diameter     : chr  "0.37" "0.37" "0.37" "0.37" ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(radon_release <span class="sc">~</span> diameter, <span class="at">data =</span> radon_data)</span>
-<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.aov</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(radon_release <span class="sc">~</span> diameter, <span class="at">data =</span> radon_data)</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 diameter     5 1133.4  226.68   30.85 3.16e-08 ***
@@ -877,8 +877,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li><p>The residuals follow an approximately normal distribution</p></li>
 <li><p>Linearity</p></li>
 </ul>
-<ol start="2" type="a">
-<li><p>Obtain point estimates and standard deviation of the radon released at each level.</p></li>
+</section>
+<section id="b.-2" class="level3">
+<h3 class="anchored" data-anchor-id="b.-2">b.</h3>
+<p>Obtain point estimates and standard deviation of the radon released at each level.</p>
+<ol start="3" type="a">
 <li><p>Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05</p></li>
 <li><p>Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?</p></li>
 </ol>
@@ -909,11 +912,56 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <ol start="6" type="a">
-<li><p>Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.</p></li>
-<li><p>Test the normality assumption using Shapiro-Wilk test.</p></li>
+<li>Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, shapiro.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'carData' was built under R version 4.5.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(radon_release, diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in leveneTest.default(radon_release, diameter): diameter coerced to
+factor.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Levene's Test for Homogeneity of Variance (center = median)
+      Df F value Pr(&gt;F)
+group  5  0.8605 0.5261
+      18               </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
+<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvoutlier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mvoutlier' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sgeostat</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sgeostat' was built under R version 4.5.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(radon_release <span class="sc">~</span> diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  radon_release by diameter
+Bartlett's K-squared = 1.8214, df = 5, p-value = 0.8733</code></pre>
+</div>
+</div>
+<ol start="7" type="a">
+<li>Test the normality assumption using Shapiro-Wilk test.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: the data comes from a normal distribution</span></span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, shapiro.test) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`0.37`
 
@@ -966,6 +1014,49 @@ W = 0.93927, p-value = 0.6499</code></pre>
 <ol start="8" type="a">
 <li>Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = radon_release ~ diameter, data = radon_data)
+
+$diameter
+            diff        lwr         upr     p adj
+0.51-0.37  -5.75 -11.841234   0.3412336 0.0707511
+0.71-0.37  -7.75 -13.841234  -1.6587664 0.0084181
+1.02-0.37 -11.00 -17.091234  -4.9087664 0.0002404
+1.40-0.37 -17.75 -23.841234 -11.6587664 0.0000004
+1.99-0.37 -20.00 -26.091234 -13.9087664 0.0000001
+0.71-0.51  -2.00  -8.091234   4.0912336 0.8968057
+1.02-0.51  -5.25 -11.341234   0.8412336 0.1153360
+1.40-0.51 -12.00 -18.091234  -5.9087664 0.0000841
+1.99-0.51 -14.25 -20.341234  -8.1587664 0.0000089
+1.02-0.71  -3.25  -9.341234   2.8412336 0.5513482
+1.40-0.71 -10.00 -16.091234  -3.9087664 0.0007059
+1.99-0.71 -12.25 -18.341234  -6.1587664 0.0000650
+1.40-1.02  -6.75 -12.841234  -0.6587664 0.0249971
+1.99-1.02  -9.00 -15.091234  -2.9087664 0.0021152
+1.99-1.40  -2.25  -8.341234   3.8412336 0.8432736</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(radon_release, diameter,<span class="at">p.adj=</span><span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  radon_release and diameter 
+
+     0.37    0.51    0.71    1.02    1.40   
+0.51 0.11528 -       -       -       -      
+0.71 0.01143 1.00000 -       -       -      
+1.02 0.00029 0.20222 1.00000 -       -      
+1.40 4.3e-07 1.0e-04 0.00087 0.03654 -      
+1.99 6.9e-08 1.0e-05 7.7e-05 0.00270 1.00000
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
 </section>
 </section>
 
