@@ -610,6 +610,72 @@ H_a  : At\:least\:one\: \mu_i \neq \mu_j \:; for \: i\neq j
 <pre><code>[1] 71.55063</code></pre>
 </div>
 </div>
+<p>We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 1 is between (-233.2, 158.7) <span class="math inline">\(lb/in^2\)</span>. That is the tensile strength for mixing technique 3 is between 158.7 <span class="math inline">\(lb/in^2\)</span> higher and 233.2 <span class="math inline">\(lb/in^2\)</span> lower than mixing technique 1.<br>
+We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 4 is between (71.55, 463.45) <span class="math inline">\(lb/in^2\)</span>. That is the tensile strength for mixing technique 3 is between 71.55 <span class="math inline">\(lb/in^2\)</span> and 463.45 <span class="math inline">\(lb/in^2\)</span> higher than mixing technique 1.</p>
+</section>
+<section id="d.-1" class="level3">
+<h3 class="anchored" data-anchor-id="d.-1">d.&nbsp;</h3>
+<p>Compute simultaneous 95% CIs for the difference in means for techniques 1 and 3, based on Tukey’s, Bonferroni’s and Scheffe’s Methods:</p>
+<p><strong>R/</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Tukey's HSD</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="fu">qtukey</span>(<span class="fl">0.95</span>, <span class="dv">4</span>, <span class="dv">16-4</span>)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">2</span>)</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>Q</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.968901</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>Up_Tu <span class="ot">&lt;-</span> PE31 <span class="sc">+</span> Q <span class="sc">*</span> SE</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>Up_Tu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 200.5004</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>Lo_Tu <span class="ot">&lt;-</span> PE31 <span class="sc">-</span> Q <span class="sc">*</span> SE</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>Lo_Tu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -275.0004</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bonferroni</span></span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">=</span> <span class="dv">4</span> <span class="sc">*</span> (<span class="dv">4</span> <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>dfe <span class="ot">=</span> <span class="dv">16</span> <span class="sc">-</span> <span class="dv">4</span></span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>t_bf <span class="ot">=</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="fl">0.05</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>g)), dfe)</span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>t_bf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.152681</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>Up_bf <span class="ot">&lt;-</span> PE31 <span class="sc">+</span> t_bf <span class="sc">*</span> SE</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>Up_bf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 215.2176</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>Lo_bf <span class="ot">&lt;-</span> PE31 <span class="sc">-</span> t_bf <span class="sc">*</span> SE</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>Lo_bf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -289.7176</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scheffe</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>Sh <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((<span class="dv">4</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, <span class="dv">4-1</span>, dfe))</span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>Sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.235875</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>Up_sh <span class="ot">&lt;-</span> PE31 <span class="sc">+</span> Sh <span class="sc">*</span> SE</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>Up_sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 221.8797</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>Lo_sh <span class="ot">&lt;-</span> PE31 <span class="sc">-</span> Sh <span class="sc">*</span> SE</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>Lo_sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -296.3797</code></pre>
+</div>
+</div>
+<p>Tukey’s HSD 95% confidence interval = (-275, 200.5)<br>
+Bonferroni’s 95% confidence interval = (-289.72, 215.22)<br>
+Scheffe’s 95% confidence interval = (-296.38, 221.88)</p>
+</section>
+<section id="e.-1" class="level3">
+<h3 class="anchored" data-anchor-id="e.-1">e.</h3>
+<p>Compute Bonferroni’s Minimum Significant Difference</p>
 </section>
 </section>
 

@@ -262,4 +262,43 @@ Up34
 Lo34 <- PE34 - (SE * t_star)
 Lo34
 ```
-**Need to conclude  an continue with part d**
+We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 1 is between (`r round(Lo31, 2)`, `r round(Up31, 2)`)  $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Up31, 2))` $lb/in^2$ higher and `r abs(round(Lo31, 2))` $lb/in^2$ lower than mixing technique 1.    
+We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 4 is between (`r round(Lo34, 2)`, `r round(Up34, 2)`)  $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Lo34, 2))` $lb/in^2$ and `r abs(round(Up34, 2))` $lb/in^2$ higher than mixing technique 1.
+
+### d. 
+
+Compute simultaneous 95% CIs for the difference in means for techniques 1 and 3, based on Tukey’s, Bonferroni’s and Scheffe’s Methods:
+
+**R/**    
+```{r}
+#Tukey's HSD
+Q <- qtukey(0.95, 4, 16-4)/sqrt(2)
+Q
+Up_Tu <- PE31 + Q * SE
+Up_Tu
+Lo_Tu <- PE31 - Q * SE
+Lo_Tu
+# Bonferroni
+g = 4 * (4 - 1)/2
+dfe = 16 - 4
+t_bf = qt(1 - (0.05/(2*g)), dfe)
+t_bf
+Up_bf <- PE31 + t_bf * SE
+Up_bf
+Lo_bf <- PE31 - t_bf * SE
+Lo_bf
+# Scheffe
+Sh <- sqrt((4 - 1) * qf(0.95, 4-1, dfe))
+Sh
+Up_sh <- PE31 + Sh * SE
+Up_sh
+Lo_sh <- PE31 - Sh * SE
+Lo_sh
+```
+Tukey's HSD 95% confidence interval = (`r round(Lo_Tu, 2)`, `r round(Up_Tu, 2)`)\
+Bonferroni's 95% confidence interval = (`r round(Lo_bf, 2)`, `r round(Up_bf, 2)`)\
+Scheffe's 95% confidence interval = (`r round(Lo_sh, 2)`, `r round(Up_sh, 2)`)
+
+### e.
+
+Compute Bonferroni’s Minimum Significant Difference
