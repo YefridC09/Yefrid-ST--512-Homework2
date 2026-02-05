@@ -302,3 +302,23 @@ Scheffe's 95% confidence interval = (`r round(Lo_sh, 2)`, `r round(Up_sh, 2)`)
 ### e.
 
 Compute Bonferroni’s Minimum Significant Difference
+```{r}
+# Bonferroni
+g <- 4 * (4 - 1)/2
+dfe <- 16 - 4
+t_bf <-  qt(1 - (0.05/(2*g)), dfe)
+t_bf
+Bf_MSD <- t_bf * sqrt( 2 * MSE / 4)
+```
+
+### f. 
+
+Compute Tukey’s Honest Significant Difference
+
+```{r}
+
+#Tukey's HSD
+Tu <- (qtukey(0.95, 4, 16-4)/sqrt(2)) * sqrt( 2 * MSE / 4)
+Tu
+```
+
