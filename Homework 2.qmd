@@ -176,17 +176,16 @@ $\bar{Y}_{4.} = 2666.25$, $s(\bar{Y}_{4.}) = 56.65$
 
 ### a.
 
-Test the hypothesis that mixing techniques affect the strength of the cement. Test the hypothesis: 
+Test the hypothesis that mixing techniques affect the strength of the cement. Test the hypothesis:
 
-**R/**    
+**R/**\
 $$
 H_o : \mu_1 = \mu_2 = \mu_3 = \mu_3
-$$ 
+$$
 
 $$
 H_a  : At\:least\:one\: \mu_i \neq \mu_j \:; for \: i\neq j
 $$
-
 
 ```{r}
 dft <- 4-1
@@ -221,9 +220,10 @@ As our P-value obtained is less than our $\alpha = 0.05$, we reject the null hyp
 
 ### b.
 
-Find a 95 percent confidence interval on the mean tensile strength of the Portland cement produced by mixing technique 3. 
+Find a 95 percent confidence interval on the mean tensile strength of the Portland cement produced by mixing technique 3.
 
-**R/**    
+**R/**
+
 ```{r}
 t_star <- qt(.975, n3-1)
 t_star
@@ -234,6 +234,7 @@ Up3
 Lo3 <- y3 - t_star * SE3
 Lo3
 ```
+
 We are 95% confident that the true mean tensile strength of the Portland cement produced by mixing technique 3 lies between (`r round(Lo3, 2)`, `r round(Up3, 2)`) $lb/in^2$.
 
 ### c.
@@ -262,14 +263,16 @@ Up34
 Lo34 <- PE34 - (SE * t_star)
 Lo34
 ```
-We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 1 is between (`r round(Lo31, 2)`, `r round(Up31, 2)`)  $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Up31, 2))` $lb/in^2$ higher and `r abs(round(Lo31, 2))` $lb/in^2$ lower than mixing technique 1.    
-We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 4 is between (`r round(Lo34, 2)`, `r round(Up34, 2)`)  $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Lo34, 2))` $lb/in^2$ and `r abs(round(Up34, 2))` $lb/in^2$ higher than mixing technique 1.
 
-### d. 
+We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 1 is between (`r round(Lo31, 2)`, `r round(Up31, 2)`) $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Up31, 2))` $lb/in^2$ higher and `r abs(round(Lo31, 2))` $lb/in^2$ lower than mixing technique 1.\
+We are 95% confident that the true difference in mean tensile strength for mixing technique 3 and 4 is between (`r round(Lo34, 2)`, `r round(Up34, 2)`) $lb/in^2$. That is the tensile strength for mixing technique 3 is between `r abs(round(Lo34, 2))` $lb/in^2$ and `r abs(round(Up34, 2))` $lb/in^2$ higher than mixing technique 1.
+
+### d.
 
 Compute simultaneous 95% CIs for the difference in means for techniques 1 and 3, based on Tukey’s, Bonferroni’s and Scheffe’s Methods:
 
-**R/**    
+**R/**
+
 ```{r}
 #Tukey's HSD
 Q <- qtukey(0.95, 4, 16-4)/sqrt(2)
@@ -295,6 +298,7 @@ Up_sh
 Lo_sh <- PE31 - Sh * SE
 Lo_sh
 ```
+
 Tukey's HSD 95% confidence interval = (`r round(Lo_Tu, 2)`, `r round(Up_Tu, 2)`)\
 Bonferroni's 95% confidence interval = (`r round(Lo_bf, 2)`, `r round(Up_bf, 2)`)\
 Scheffe's 95% confidence interval = (`r round(Lo_sh, 2)`, `r round(Up_sh, 2)`)
@@ -302,6 +306,7 @@ Scheffe's 95% confidence interval = (`r round(Lo_sh, 2)`, `r round(Up_sh, 2)`)
 ### e.
 
 Compute Bonferroni’s Minimum Significant Difference
+
 ```{r}
 # Bonferroni
 g <- 4 * (4 - 1)/2
@@ -309,16 +314,28 @@ dfe <- 16 - 4
 t_bf <-  qt(1 - (0.05/(2*g)), dfe)
 t_bf
 Bf_MSD <- t_bf * sqrt( 2 * MSE / 4)
+Bf_MSD
 ```
 
-### f. 
+### f.
 
 Compute Tukey’s Honest Significant Difference
 
 ```{r}
 
 #Tukey's HSD
-Tu <- (qtukey(0.95, 4, 16-4)/sqrt(2)) * sqrt( 2 * MSE / 4)
-Tu
+Tu_HSD <- (qtukey(0.95, 4, 16-4)/sqrt(2)) * sqrt( 2 * MSE / 4)
+Tu_HSD
+```
+
+### g.
+
+Compute Scheffe’s Minimum Significant Difference
+
+**R/**    
+```{r}
+Sh <- sqrt((4 - 1) * qf(0.95, 4-1, dfe))
+Sh_MSD <- Sh * sqrt( 2 * MSE / 4)
+Sh_MSD
 ```
 
