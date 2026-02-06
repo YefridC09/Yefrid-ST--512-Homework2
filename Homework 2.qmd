@@ -435,7 +435,6 @@ radon_data
 str(radon_data)
 model <- aov(radon_release ~ diameter, data = radon_data)
 summary(model)
-tapply(radon_release, diameter, mean)
 ```
 
 The assumptions for this model are:
@@ -448,26 +447,56 @@ The assumptions for this model are:
 
 - Linearity
 
+Terms of the model:
 
+- 5 are the degrees of freedom due to the treatments (a-1) = (6-1)
+
+- 18 are the degrees of freedom for the error (nt-a) = (24-6)
+
+- 1133.4 is the sum of squares for the treatments
+
+- 132.2 is the sum of squares for the error
+
+- 226.68 is the variation explained by the treatments
+
+- 7.35 is the variation explained by the error
+
+- 30.85 is the F-value of our observations under the assumption that the null hypothesis is true
+
+- 3.16e-8 is the probability to obtain the values observed under the assumption of the null hypothesis (all means are equal).
 
 ### b.	
 
 Obtain point estimates and standard deviation of the radon released at each level.
+
+**R/**    
+```{r}
+tapply(radon_release, diameter, mean) #Mean (Point estimates)
+tapply(radon_release, diameter, sd) #Standard deviation
+```
 
 
 ### c.	
 
 Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05
 
-d.	Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?
+**R/**    
+Given our alpha value = 0.05, and that the P-value obtained in the ANOVA is 3.16e-8, we have strong evidence to conclude that the orifice diameter does affect the mean percentage of radon released (at least one the means is different from the others)
+
+### d.
+
+Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?
 
 ```{r}
 qqnorm(residuals(model))
 qqline(residuals(model))
 ```
 
+Based on the normal Q-Q plot, we can conclude that the data follows the normality assumption, since the residuals from our data follows a similar linear trend against the theoretical normal distributed residuals.
 
-e.	Plot the residuals versus the predicted radon release. Comment on the plot.
+### e.	
+
+Plot the residuals versus the predicted radon release. Comment on the plot.
 
 ```{r}
 plot(fitted.values(model), residuals(model), 
@@ -475,33 +504,63 @@ plot(fitted.values(model), residuals(model),
 abline(h = 0)
 ```
 
+Based on the residuals vs fitted values plot, we can confirm our assumption regarding equal variance since there is not a funnel shape trend, also there is no specific pattern on each point that may make us think about the lack of linearity within the data.
 
-f.	Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.
+### f.
+
+Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.
 
 ```{r}
 #It is testing Ho: all group variances are equal
 library(car)
 leveneTest(radon_release, diameter)
 ```
+Based on the P-value (Big P-value) we fail to reject the null hypothesis and we conclude that the variance for each treatment is approximately equal to the others.
 ```{r}
 #It is testing Ho: all group variances are equal
 library(mvoutlier)
 bartlett.test(radon_release ~ diameter)
 ```
+Based on the P-value (Big P-value) we fail to reject the null hypothesis and we conclude that the variance for each treatment is approximately equal to the others.
 
+### g.
 
-g.	Test the normality assumption using Shapiro-Wilk test.
+Test the normality assumption using Shapiro-Wilk test.
 
 ```{r}
 #It is testing Ho: the data comes from a normal distribution
 tapply(radon_release, diameter, shapiro.test) 
 ```
+Given the P-value for each of the treatments, we fail to reject the null hypothesis for all of the treatments, and conclude that the data follows and approximate normal distribution. Except for the 0.51 orifice size in which the P-value is lower than our assumed α = 0.05, we reject the null hypothesis here and conclude that the residuals for this treatment do not follow a normal distribution.
 
+### h.
 
-h.	Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.
+Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.
 
 ```{r}
 TukeyHSD(model)
 pairwise.t.test(radon_release, diameter,p.adj="bonferroni")
 ```
+Based on the P-value adjusted in Tukey's HSD, we can conclude that the following pairs differ in the mean radon release percentage:
 
+- 0.71-0.37
+
+- 1.02-0.37
+
+- 1.40-0.37
+
+- 1.99-0.37
+
+- 1.40-0.51
+
+- 1.99-0.51
+
+- 1.40-0.71
+
+- 1.99-0.71
+
+- 1.40-1.02
+
+- 1.99-1.02
+
+Which match with the comparisons that are considered significant for the Bonferroni's adjusted P-values.

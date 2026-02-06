@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Homework 2_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Homework 2_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Homework 2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Homework 2_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Homework 2_files/libs/bootstrap/bootstrap-00b89fee0a844e7981cdfbc55183e926.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -864,11 +864,6 @@ Residuals   18  132.2    7.35
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> 0.37  0.51  0.71  1.02  1.40  1.99 
-82.75 77.00 75.00 71.75 65.00 62.75 </code></pre>
-</div>
 </div>
 <p>The assumptions for this model are:</p>
 <ul>
@@ -877,32 +872,47 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li><p>The residuals follow an approximately normal distribution</p></li>
 <li><p>Linearity</p></li>
 </ul>
+<p>Terms of the model:</p>
+<ul>
+<li><p>5 are the degrees of freedom due to the treatments (a-1) = (6-1)</p></li>
+<li><p>18 are the degrees of freedom for the error (nt-a) = (24-6)</p></li>
+<li><p>1133.4 is the sum of squares for the treatments</p></li>
+<li><p>132.2 is the sum of squares for the error</p></li>
+<li><p>226.68 is the variation explained by the treatments</p></li>
+<li><p>7.35 is the variation explained by the error</p></li>
+<li><p>30.85 is the F-value of our observations under the assumption that the null hypothesis is true</p></li>
+<li><p>3.16e-8 is the probability to obtain the values observed under the assumption of the null hypothesis (all means are equal).</p></li>
+</ul>
 </section>
 <section id="b.-2" class="level3">
 <h3 class="anchored" data-anchor-id="b.-2">b.</h3>
 <p>Obtain point estimates and standard deviation of the radon released at each level.</p>
-<ol start="3" type="a">
-<li><p>Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05</p></li>
-<li><p>Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?</p></li>
-</ol>
+<p><strong>R/</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(model))</span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Homework-2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, mean) <span class="co">#Mean (Point estimates)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 0.37  0.51  0.71  1.02  1.40  1.99 
+82.75 77.00 75.00 71.75 65.00 62.75 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, sd) <span class="co">#Standard deviation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    0.37     0.51     0.71     1.02     1.40     1.99 
+2.061553 2.309401 1.825742 3.304038 3.559026 2.753785 </code></pre>
 </div>
 </div>
-</div>
-<ol start="5" type="a">
-<li>Plot the residuals versus the predicted radon release. Comment on the plot.</li>
-</ol>
+</section>
+<section id="c.-2" class="level3">
+<h3 class="anchored" data-anchor-id="c.-2">c.&nbsp;</h3>
+<p>Does the size of the orifice affect the mean percentage of radon released? Use α = 0.05</p>
+<p><strong>R/</strong><br>
+Given our alpha value = 0.05, and that the P-value obtained in the ANOVA is 3.16e-8, we have strong evidence to conclude that the orifice diameter does affect the mean percentage of radon released (at least one the means is different from the others)</p>
+</section>
+<section id="d.-2" class="level3">
+<h3 class="anchored" data-anchor-id="d.-2">d.</h3>
+<p>Construct a normal probability plot of the residuals. What conclusion would you draw about the validity of the normality assumption?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(model), <span class="fu">residuals</span>(model), </span>
-<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted values"</span>, <span class="at">ylab =</span> <span class="st">"Residuals"</span>)</span>
-<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(model))</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">residuals</span>(model))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -911,19 +921,35 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-<ol start="6" type="a">
-<li>Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.</li>
-</ol>
+<p>Based on the normal Q-Q plot, we can conclude that the data follows the normality assumption, since the residuals from our data follows a similar linear trend against the theoretical normal distributed residuals.</p>
+</section>
+<section id="e.-2" class="level3">
+<h3 class="anchored" data-anchor-id="e.-2">e.</h3>
+<p>Plot the residuals versus the predicted radon release. Comment on the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
-<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted.values</span>(model), <span class="fu">residuals</span>(model), </span>
+<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted values"</span>, <span class="at">ylab =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Homework-2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the residuals vs fitted values plot, we can confirm our assumption regarding equal variance since there is not a funnel shape trend, also there is no specific pattern on each point that may make us think about the lack of linearity within the data.</p>
+</section>
+<section id="f.-1" class="level3">
+<h3 class="anchored" data-anchor-id="f.-1">f.</h3>
+<p>Test by means of the Modified Leven’s (Brown-Forsythe) and Bartlett’s test whether the treatment error variances for the response variable are equal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: carData</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'carData' was built under R version 4.5.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(radon_release, diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leveneTest</span>(radon_release, diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in leveneTest.default(radon_release, diameter): diameter coerced to
 factor.</code></pre>
@@ -935,19 +961,14 @@ group  5  0.8605 0.5261
       18               </code></pre>
 </div>
 </div>
+<p>Based on the P-value (Big P-value) we fail to reject the null hypothesis and we conclude that the variance for each treatment is approximately equal to the others.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
-<span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvoutlier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'mvoutlier' was built under R version 4.5.2</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: all group variances are equal</span></span>
+<span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvoutlier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: sgeostat</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'sgeostat' was built under R version 4.5.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(radon_release <span class="sc">~</span> diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(radon_release <span class="sc">~</span> diameter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Bartlett test of homogeneity of variances
@@ -956,12 +977,14 @@ data:  radon_release by diameter
 Bartlett's K-squared = 1.8214, df = 5, p-value = 0.8733</code></pre>
 </div>
 </div>
-<ol start="7" type="a">
-<li>Test the normality assumption using Shapiro-Wilk test.</li>
-</ol>
+<p>Based on the P-value (Big P-value) we fail to reject the null hypothesis and we conclude that the variance for each treatment is approximately equal to the others.</p>
+</section>
+<section id="g.-1" class="level3">
+<h3 class="anchored" data-anchor-id="g.-1">g.</h3>
+<p>Test the normality assumption using Shapiro-Wilk test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: the data comes from a normal distribution</span></span>
-<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, shapiro.test) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="co">#It is testing Ho: the data comes from a normal distribution</span></span>
+<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>(radon_release, diameter, shapiro.test) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`0.37`
 
@@ -1011,11 +1034,13 @@ data:  X[[i]]
 W = 0.93927, p-value = 0.6499</code></pre>
 </div>
 </div>
-<ol start="8" type="a">
-<li>Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.</li>
-</ol>
+<p>Given the P-value for each of the treatments, we fail to reject the null hypothesis for all of the treatments, and conclude that the data follows and approximate normal distribution. Except for the 0.51 orifice size in which the P-value is lower than our assumed α = 0.05, we reject the null hypothesis here and conclude that the residuals for this treatment do not follow a normal distribution.</p>
+</section>
+<section id="h." class="level3">
+<h3 class="anchored" data-anchor-id="h.">h.</h3>
+<p>Use the Tukey’s and Bonferroni’s methods to make comparisons among the five treatments to determine specifically which treatments differ in radon release.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Tukey multiple comparisons of means
     95% family-wise confidence level
@@ -1040,7 +1065,7 @@ $diameter
 1.99-1.02  -9.00 -15.091234  -2.9087664 0.0021152
 1.99-1.40  -2.25  -8.341234   3.8412336 0.8432736</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(radon_release, diameter,<span class="at">p.adj=</span><span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(radon_release, diameter,<span class="at">p.adj=</span><span class="st">"bonferroni"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pairwise comparisons using t tests with pooled SD 
@@ -1057,6 +1082,20 @@ data:  radon_release and diameter
 P value adjustment method: bonferroni </code></pre>
 </div>
 </div>
+<p>Based on the P-value adjusted in Tukey’s HSD, we can conclude that the following pairs differ in the mean radon release percentage:</p>
+<ul>
+<li><p>0.71-0.37</p></li>
+<li><p>1.02-0.37</p></li>
+<li><p>1.40-0.37</p></li>
+<li><p>1.99-0.37</p></li>
+<li><p>1.40-0.51</p></li>
+<li><p>1.99-0.51</p></li>
+<li><p>1.40-0.71</p></li>
+<li><p>1.99-0.71</p></li>
+<li><p>1.40-1.02</p></li>
+<li><p>1.99-1.02</p></li>
+</ul>
+<p>Which match with the comparisons that are considered significant for the Bonferroni’s adjusted P-values.</p>
 </section>
 </section>
 
